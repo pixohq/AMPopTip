@@ -125,7 +125,7 @@ open class PopTip: UIView {
   /// The width for the poptip's border
   @objc open dynamic var borderWidth = CGFloat(0.0)
   /// The `Double` with the poptip's border radius
-  @objc open dynamic var cornerRadius = CGFloat(4.0)
+  @objc open dynamic var app_cornerRadius = CGFloat(4.0)
   /// The `BOOL` that determines wether the poptip is rounded. If set to `true` the radius will equal `frame.height / 2`
   @objc open dynamic var isRounded = false
   /// The `UIColor` with the poptip's shadow color
@@ -298,7 +298,7 @@ open class PopTip: UIView {
     }
 
     // Constraint the offset in the boundaries of the bubble, maintaining the sign (hence the arrowOffset / arrowOffset)
-    let constrainedArrowOffset = abs(arrowOffset) > (frame.size.width / 2) ? ((arrowOffset / arrowOffset) * (frame.size.width / 2 - cornerRadius * 2)) : arrowOffset
+    let constrainedArrowOffset = abs(arrowOffset) > (frame.size.width / 2) ? ((arrowOffset / arrowOffset) * (frame.size.width / 2 - app_cornerRadius * 2)) : arrowOffset
     // Make sure that the bubble doesn't leave the boundaries of the view
     var arrowPosition = CGPoint(
       x: from.origin.x + from.width / 2 - frame.origin.x - constrainedArrowOffset,
@@ -363,7 +363,7 @@ open class PopTip: UIView {
     frame.origin = CGPoint(x: x, y: y)
 
     // Constraint the offset in the boundaries of the bubble, maintaining the sign (hence the arrowOffset / arrowOffset)
-    let constrainedArrowOffset = abs(arrowOffset) > (frame.size.height / 2) ? ((arrowOffset / arrowOffset) * (frame.size.height / 2  - cornerRadius * 2)) : arrowOffset
+    let constrainedArrowOffset = abs(arrowOffset) > (frame.size.height / 2) ? ((arrowOffset / arrowOffset) * (frame.size.height / 2  - app_cornerRadius * 2)) : arrowOffset
     // Make sure that the bubble doesn't leave the boundaries of the view
     let arrowPosition = CGPoint(
       x: direction == .left ? from.origin.x - frame.origin.x + offset : from.origin.x + from.width - frame.origin.x + offset,
@@ -552,10 +552,10 @@ open class PopTip: UIView {
   open override func draw(_ rect: CGRect) {
     if isRounded {
       let showHorizontally = direction == .left || direction == .right
-      cornerRadius = (frame.size.height - (showHorizontally ? 0 : arrowSize.height)) / 2
+      app_cornerRadius = (frame.size.height - (showHorizontally ? 0 : arrowSize.height)) / 2
     }
 
-    let path = PopTip.pathWith(rect: rect, frame: frame, direction: direction, arrowSize: arrowSize, arrowPosition: arrowPosition, arrowRadius: arrowRadius, borderWidth: borderWidth, radius: cornerRadius)
+    let path = PopTip.pathWith(rect: rect, frame: frame, direction: direction, arrowSize: arrowSize, arrowPosition: arrowPosition, arrowRadius: arrowRadius, borderWidth: borderWidth, radius: app_cornerRadius)
 
     layer.shadowOpacity = shadowOpacity
     layer.shadowRadius = CGFloat(shadowRadius)
@@ -808,7 +808,7 @@ open class PopTip: UIView {
       UIView.animate(withDuration: 0.2, delay: 0, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: {
         self.setup()
 
-        let path = PopTip.pathWith(rect: self.frame, frame: self.frame, direction: self.direction, arrowSize: self.arrowSize, arrowPosition: self.arrowPosition, arrowRadius: self.arrowRadius, borderWidth: self.borderWidth, radius: self.cornerRadius)
+        let path = PopTip.pathWith(rect: self.frame, frame: self.frame, direction: self.direction, arrowSize: self.arrowSize, arrowPosition: self.arrowPosition, arrowRadius: self.arrowRadius, borderWidth: self.borderWidth, radius: self.app_cornerRadius)
 
         let shadowAnimation = CABasicAnimation(keyPath: "shadowPath")
         shadowAnimation.duration = 0.2
